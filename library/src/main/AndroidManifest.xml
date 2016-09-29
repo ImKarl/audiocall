@@ -1,16 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.imkarl.call.audio">
 
-    // SDK 权限申明, 第三方 APP 接入时，请将 com.imkarl.call.audio 替换为自己的包名
-    // 和下面的 uses-permission 一起加入到你的 AndroidManifest 文件中。
-    <permission android:name="com.imkarl.call.audio.permission.RECEIVE_MSG" android:protectionLevel="signature"/>
-    <permission android:name="com.imkarl.call.audio.permission.INCOMING_CALL" android:protectionLevel="signature"/>
-    // 接收 SDK 消息广播权限， 第三方 APP 接入时，请将 com.imkarl.call.audio 替换为自己的包名
-    <uses-permission android:name="com.imkarl.call.audio.permission.RECEIVE_MSG" />
-    // 如果没有VOIP功能可以忽略
-    <uses-permission android:name="com.imkarl.call.audio.permission.INCOMING_CALL" />
-
-
     <!-- 允许程序打开网络sockets(必选配置) -->
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- 允许程序访问有关的网络信息(必选配置) -->
@@ -84,17 +74,6 @@
         <!--
          需要权限声明 <uses-permission android:name="com.imkarl.call.audio.permission.INCOMING_CALL"/>
         -->
-        <receiver android:name=".core.YuntxNotifyReceiver" android:exported="false">
-            <intent-filter>
-                // 接收push消息 // action匹配规则{packageName + ".action" + "功能"}
-                <action android:name="com.imkarl.call.audio.action.VOIP_CALL"/>
-                <action android:name="com.imkarl.call.audio.action.MESSAGE"/>
-                <action android:name="com.imkarl.call.audio.action.NOTIFICATION_CLICK"/>
-                <action android:name="com.imkarl.call.audio.action.PERSON_VERSION"/>
-                // 这个配置是容联IM专有的配置，其他应用集成的时候可以忽略
-                <action android:name="com.imkarl.call.audio.action.SOFT_UPDATER"/>
-            </intent-filter>
-        </receiver>
         // *****************************ECSDK核心服务类 End******************************************* // 应用处理程序逻辑服务
         <service android:name=".core.YuntxNotifyReceiver$NotifyService"/>
 
