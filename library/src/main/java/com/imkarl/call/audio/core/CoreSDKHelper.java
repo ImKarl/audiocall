@@ -140,7 +140,7 @@ public class CoreSDKHelper implements ECDevice.InitListener, ECDevice.OnECDevice
 
     @Override
     public void onConnectState(ECDevice.ECConnectState state, ECError error) {
-        L.d(error.toString());
+        L.d("state="+state+",  error="+error);
 
         ConnectStatus connectStatus;
         switch (state) {
@@ -148,7 +148,6 @@ public class CoreSDKHelper implements ECDevice.InitListener, ECDevice.OnECDevice
                 connectStatus = ConnectStatus.SUCCESS;
                 if (mOnConnectListener != null) {
                     mOnConnectListener.onConnected();
-                    initVoip();
                 }
                 break;
             case CONNECTING:
@@ -171,6 +170,8 @@ public class CoreSDKHelper implements ECDevice.InitListener, ECDevice.OnECDevice
                 break;
         }
         mConnectStatus = connectStatus;
+
+        initVoip();
     }
 
     private void initVoip() {
