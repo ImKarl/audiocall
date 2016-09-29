@@ -1,10 +1,13 @@
 package com.imkarl.call.audio;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * 通话事件
  * @author imkarl 2016-09
  */
-public class CallEvent {
+public class CallEvent implements Parcelable {
 
     public enum Direction {
         /** 来电 */
@@ -28,6 +31,44 @@ public class CallEvent {
         this.type = type;
         this.code = code;
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.callId);
+        dest.writeString(this.userId);
+        dest.writeInt(this.direction == null ? -1 : this.direction.ordinal());
+        dest.writeInt(this.type == null ? -1 : this.type.ordinal());
+        dest.writeInt(this.code);
+    }
+
+    protected CallEvent(Parcel in) {
+        this.callId = in.readString();
+        this.userId = in.readString();
+        int tmpDirection = in.readInt();
+        this.direction = tmpDirection == -1 ? null : Direction.values()[tmpDirection];
+        int tmpType = in.readInt();
+        this.type = tmpType == -1 ? null : EventType.values()[tmpType];
+        this.code = in.readInt();
+    }
+
+    public static final Creator<CallEvent> CREATOR = new Creator<CallEvent>() {
+        @Override
+        public CallEvent createFromParcel(Parcel source) {
+            return new CallEvent(source);
+        }
+
+        @Override
+        public CallEvent[] newArray(int size) {
+            return new CallEvent[size];
+        }
+    };
+
 
     @Override
     public String toString() {
